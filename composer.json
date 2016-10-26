@@ -1,0 +1,21 @@
+{
+    "name": "ruwork/routing-bundle",
+    "description": "RUWORK Routing Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Valentin Udaltsov",
+            "email": "udaltsov@ruvents.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ruwork\\RoutingBundle\\": ""
+        }
+    },
+    "minimum-stability": "dev"
+}
