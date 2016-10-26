@@ -1,0 +1,7 @@
+services:
+  ruwork_routing.template_loader:
+    class: Ruwork\RoutingBundle\Routing\TemplateLoader
+    arguments:
+      - "@?kernel"
+    tags:
+      - { name: routing.loader }
