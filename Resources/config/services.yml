@@ -2,6 +2,6 @@ services:
   ruwork_routing.template_loader:
     class: Ruwork\RoutingBundle\Routing\TemplateLoader
     arguments:
-      - "@?kernel"
+      - "@?file_locator"
     tags:
       - { name: routing.loader }

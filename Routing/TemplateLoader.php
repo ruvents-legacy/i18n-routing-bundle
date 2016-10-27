@@ -3,24 +3,24 @@
 namespace Ruwork\RoutingBundle\Routing;
 
 use Ruwork\RoutingBundle\Config\RegexFileStructureResource;
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class TemplateLoader extends Loader
 {
     /**
-     * @var KernelInterface|null
+     * @var FileLocatorInterface|null
      */
-    private $kernel;
+    private $fileLocator;
 
     /**
-     * @param KernelInterface|null $kernel
+     * @param FileLocatorInterface|null $fileLocator
      */
-    public function __construct(KernelInterface $kernel = null)
+    public function __construct(FileLocatorInterface $fileLocator = null)
     {
-        $this->kernel = $kernel;
+        $this->fileLocator = $fileLocator;
     }
 
     /**
@@ -68,9 +68,9 @@ class TemplateLoader extends Loader
      */
     private function locateDirectory($dir)
     {
-        $dir = $this->kernel === null
+        $dir = $this->fileLocator === null
             ? $dir
-            : $this->kernel->locateResource($dir);
+            : $this->fileLocator->locate($dir);
 
         return rtrim(realpath($dir), '/');
     }
