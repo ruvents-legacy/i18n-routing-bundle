@@ -39,11 +39,10 @@ class TemplateLoader extends Loader
         $routes->addResource($structureResource);
 
         foreach ($structureResource as $fileInfo) {
-            $uri = preg_replace('/\/index$/', '', $fileInfo['uri']);
-            $uri = $uri ?: '/';
+            $uri = $this->getUri($fileInfo['uri']);
 
             $routes->add(
-                $this->generateRouteName($uri),
+                $this->getRouteName($uri),
                 new Route($uri, [
                     '_controller' => 'AppBundle:App:templateRouting',
                     'template' => $resource.$fileInfo['file'],
@@ -81,15 +80,32 @@ class TemplateLoader extends Loader
     }
 
     /**
+     * @param $string
+     * @return string
+     */
+    private function getUri($string)
+    {
+        if ($string === '/index') {
+            return '/';
+        }
+
+        return preg_replace('/\/index$/i', '', $string);
+    }
+
+    /**
      * @param string $uri
      * @param string $delimiter
      * @param string $rootName
      * @return string
      */
-    private function generateRouteName($uri, $delimiter = '_', $rootName = 'root')
+    private function getRouteName($uri, $delimiter = '_', $rootName = 'root')
     {
-        return $uri === '/'
-            ? $rootName
-            : trim(preg_replace('/[\W]+/', $delimiter, $uri), $delimiter);
+        if ($uri === '/') {
+            return $rootName;
+        }
+
+        $routeName = preg_replace('/[\W]+/', $delimiter, $uri);
+
+        return trim($routeName, $delimiter);
     }
 }
