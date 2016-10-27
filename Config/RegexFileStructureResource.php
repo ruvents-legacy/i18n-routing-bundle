@@ -92,6 +92,6 @@ class RegexFileStructureResource implements SelfCheckingResourceInterface, \Iter
      */
     private function generateHash()
     {
-        return sha1(serialize(iterator_to_array($this->getIterator())));
+        return sha1(serialize(iterator_to_array($this->getIterator(\RegexIterator::MATCH))));
     }
 }
