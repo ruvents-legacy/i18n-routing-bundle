@@ -10,10 +10,17 @@ use Symfony\Component\Routing\RouteCollection;
 
 class TemplateLoader extends Loader
 {
+    const NAME = 'ruwork_template';
+
     /**
      * @var FileLocatorInterface|null
      */
     private $fileLocator;
+
+    /**
+     * @var string[]
+     */
+    private $loadedResources = [];
 
     /**
      * @param FileLocatorInterface|null $fileLocator
@@ -25,9 +32,16 @@ class TemplateLoader extends Loader
 
     /**
      * {@inheritdoc}
+     * @throws \RuntimeException
      */
     public function load($resource, $type = null)
     {
+        if (in_array($resource, $this->loadedResources)) {
+            throw new \RuntimeException(sprintf('Resource "%s" was already loaded by the "%s" loader.',
+                $resource, self::NAME
+            ));
+        }
+
         $dir = $this->locateDirectory($resource);
 
         $structureResource = new RegexFileStructureResource($dir, sprintf(
@@ -50,6 +64,8 @@ class TemplateLoader extends Loader
             );
         }
 
+        $this->loadedResources[] = $resource;
+
         return $routes;
     }
 
@@ -58,7 +74,7 @@ class TemplateLoader extends Loader
      */
     public function supports($resource, $type = null)
     {
-        return $type === 'ruwork_template';
+        return $type === self::NAME;
     }
 
     /**
