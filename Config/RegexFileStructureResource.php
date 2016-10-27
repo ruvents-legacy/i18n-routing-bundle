@@ -6,7 +6,7 @@ use IteratorAggregate, Serializable;
 use RecursiveDirectoryIterator, FilesystemIterator, RecursiveIteratorIterator, RegexIterator;
 use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
 
-class FileStructureResource implements SelfCheckingResourceInterface, IteratorAggregate, Serializable
+class RegexFileStructureResource implements SelfCheckingResourceInterface, IteratorAggregate, Serializable
 {
     /**
      * @var string

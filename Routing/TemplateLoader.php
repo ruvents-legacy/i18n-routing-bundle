@@ -2,7 +2,7 @@
 
 namespace Ruwork\RoutingBundle\Routing;
 
-use Ruwork\RoutingBundle\Config\FileStructureResource;
+use Ruwork\RoutingBundle\Config\RegexFileStructureResource;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
@@ -30,7 +30,7 @@ class TemplateLoader extends Loader
     {
         $dir = $this->locateDirectory($resource);
 
-        $structureResource = new FileStructureResource($dir, sprintf(
+        $structureResource = new RegexFileStructureResource($dir, sprintf(
             '/^%s(?<file>(?<uri>\/.+?)(?:|\.(?<locale>ru|en))\.page\.html\.twig)$/',
             preg_quote($dir, '/')
         ));
