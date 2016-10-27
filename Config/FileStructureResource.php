@@ -34,7 +34,7 @@ class FileStructureResource implements SelfCheckingResourceInterface, IteratorAg
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __toString()
     {
@@ -46,7 +46,7 @@ class FileStructureResource implements SelfCheckingResourceInterface, IteratorAg
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isFresh($timestamp)
     {
@@ -54,7 +54,7 @@ class FileStructureResource implements SelfCheckingResourceInterface, IteratorAg
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getIterator()
     {
@@ -66,7 +66,7 @@ class FileStructureResource implements SelfCheckingResourceInterface, IteratorAg
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function serialize()
     {
@@ -78,7 +78,7 @@ class FileStructureResource implements SelfCheckingResourceInterface, IteratorAg
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function unserialize($serialized)
     {

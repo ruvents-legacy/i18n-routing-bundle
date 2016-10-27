@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class RuworkRoutingExtension extends ConfigurableExtension
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
