@@ -57,10 +57,7 @@ class TemplateLoader extends Loader
 
             $routes->add(
                 $this->getRouteName($uri),
-                new Route($uri, [
-                    '_controller' => 'AppBundle:App:templateRouting',
-                    'template' => $resource.$fileInfo['file'],
-                ])
+                new Route($uri, ['template' => $resource.$fileInfo['file']])
             );
         }
 
