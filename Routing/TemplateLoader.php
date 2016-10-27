@@ -63,14 +63,19 @@ class TemplateLoader extends Loader
     }
 
     /**
-     * @param string $dir
+     * @param string $resource
      * @return string
+     * @throws \RuntimeException
      */
-    private function locateDirectory($dir)
+    private function locateDirectory($resource)
     {
         $dir = $this->fileLocator === null
-            ? $dir
-            : $this->fileLocator->locate($dir);
+            ? $resource
+            : $this->fileLocator->locate($resource);
+
+        if (!is_dir($dir)) {
+            throw new \RuntimeException(sprintf('"%s" is not a directory.', $resource));
+        }
 
         return rtrim(realpath($dir), '/');
     }
