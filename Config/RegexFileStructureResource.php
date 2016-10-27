@@ -2,11 +2,9 @@
 
 namespace Ruwork\RoutingBundle\Config;
 
-use IteratorAggregate, Serializable;
-use RecursiveDirectoryIterator, FilesystemIterator, RecursiveIteratorIterator, RegexIterator;
 use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
 
-class RegexFileStructureResource implements SelfCheckingResourceInterface, IteratorAggregate, Serializable
+class RegexFileStructureResource implements SelfCheckingResourceInterface, \IteratorAggregate, \Serializable
 {
     /**
      * @var string
@@ -58,11 +56,11 @@ class RegexFileStructureResource implements SelfCheckingResourceInterface, Itera
      */
     public function getIterator()
     {
-        $recursiveFilesIterator = new RecursiveDirectoryIterator($this->resource,
-            FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::SKIP_DOTS);
-        $filesIterator = new RecursiveIteratorIterator($recursiveFilesIterator);
+        $recursiveFilesIterator = new \RecursiveDirectoryIterator($this->resource,
+            \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
+        $filesIterator = new \RecursiveIteratorIterator($recursiveFilesIterator);
 
-        return new RegexIterator($filesIterator, $this->pattern, RegexIterator::GET_MATCH);
+        return new \RegexIterator($filesIterator, $this->pattern, \RegexIterator::GET_MATCH);
     }
 
     /**
