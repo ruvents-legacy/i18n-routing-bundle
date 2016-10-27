@@ -54,13 +54,13 @@ class RegexFileStructureResource implements SelfCheckingResourceInterface, \Iter
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator($flags = \RegexIterator::GET_MATCH)
     {
         $recursiveFilesIterator = new \RecursiveDirectoryIterator($this->resource,
             \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
         $filesIterator = new \RecursiveIteratorIterator($recursiveFilesIterator);
 
-        return new \RegexIterator($filesIterator, $this->pattern, \RegexIterator::GET_MATCH);
+        return new \RegexIterator($filesIterator, $this->pattern, $flags);
     }
 
     /**
