@@ -3,8 +3,10 @@
 namespace Ruwork\RoutingBundle\Routing;
 
 use Ruwork\RoutingBundle\Config\Resource\RegexFileStructureResource;
-use Ruwork\RoutingBundle\Templating\TemplateReference;
+use Ruwork\RoutingBundle\Templating\ExportableTemplateReference;
+use Ruwork\RoutingBundle\Templating\I18nTemplateReference;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser;
+use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
@@ -51,42 +53,39 @@ class TemplateLoader extends Loader
             ));
         }
 
-        $baseRef = $this->templateNameParser->parse($resource);
-        $dir = $this->fileLocator->locate(dirname($baseRef->getPath()));
-
-        $structureResource = new RegexFileStructureResource($dir, sprintf(
-            '#^%s(/.+)(?:\.(?:%s))?\.%s\.%s$#i',
-            preg_quote($dir),
-            implode('|', array_map('preg_quote', ['ru', 'en'])),
-            preg_quote($baseRef->get('format')),
-            preg_quote($baseRef->get('engine'))
-        ));
+        $baseReference = $this->templateNameParser->parse($resource);
+        $structureResource = $this->createStructureResource($baseReference);
 
         $routes = new RouteCollection();
         $routes->addResource($structureResource);
 
         foreach ($structureResource as $fileInfo) {
-            $template = new TemplateReference(
-                $baseRef->get('bundle'),
-                ltrim(dirname($fileInfo[1]), '/'),
-                basename($fileInfo[1]),
-                $baseRef->get('format'),
-                $baseRef->get('engine')
-            );
-
             $uri = $this->getUri($fileInfo[1]);
             $name = $this->getRouteName($uri);
 
-            if ($routes->get($name) !== null) {
-                continue;
+            if (null === $route = $routes->get($name)) {
+                $i18nReference = new I18nTemplateReference(
+                    new ExportableTemplateReference(
+                        $baseReference->get('bundle'),
+                        ltrim(dirname($fileInfo[1]), '/'),
+                        basename($fileInfo[1]),
+                        $baseReference->get('format'),
+                        $baseReference->get('engine')
+                    )
+                );
+
+                $routes->add($name, new Route($uri, [
+                    'reference' => $i18nReference,
+                ]));
+            } else {
+                /** @var I18nTemplateReference $i18nReference */
+                $i18nReference = $route->getDefault('reference');
             }
 
-            $routes->add($name, new Route($uri, [
-                'template' => $template,
-            ]));
+            $i18nReference->addLocale(empty($fileInfo[2]) ? '' : $fileInfo[2]);
         }
 
-        $this->loadedResources[] = $baseRef;
+        $this->loadedResources[] = $resource;
 
         return $routes;
     }
@@ -97,6 +96,23 @@ class TemplateLoader extends Loader
     public function supports($resource, $type = null)
     {
         return $type === self::NAME;
+    }
+
+    /**
+     * @param TemplateReference $reference
+     * @return RegexFileStructureResource
+     */
+    private function createStructureResource(TemplateReference $reference)
+    {
+        $dir = $this->fileLocator->locate(dirname($reference->getPath()));
+
+        return new RegexFileStructureResource($dir, sprintf(
+            '#^%s(/.+?)(?:\.(%s))?\.%s\.%s$#i',
+            preg_quote($dir),
+            implode('|', array_map('preg_quote', ['ru', 'en'])),
+            preg_quote($reference->get('format')),
+            preg_quote($reference->get('engine'))
+        ));
     }
 
     /**
