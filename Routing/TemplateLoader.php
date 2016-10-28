@@ -2,7 +2,7 @@
 
 namespace Ruwork\RoutingBundle\Routing;
 
-use Ruwork\RoutingBundle\Config\RegexFileStructureResource;
+use Ruwork\RoutingBundle\Config\Resource\RegexFileStructureResource;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;

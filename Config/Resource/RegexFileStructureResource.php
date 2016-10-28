@@ -1,6 +1,6 @@
 <?php
 
-namespace Ruwork\RoutingBundle\Config;
+namespace Ruwork\RoutingBundle\Config\Resource;
 
 use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
 
