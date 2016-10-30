@@ -21,21 +21,14 @@ class RuworkRoutingExtension extends ConfigurableExtension
 
         $loader->load('services.yml');
 
-        if ($mergedConfig['i18n']['enabled']) {
-            $container->findDefinition('ruwork_routing.i18n_router')
-                ->addMethodCall('setDefaultLocale', [$mergedConfig['i18n']['default_locale']]);
+        $container->findDefinition('ruwork_routing.i18n_router')
+            ->addMethodCall('setDefaultLocale', [$mergedConfig['i18n']['default_locale']]);
 
-            $container->findDefinition('ruwork_routing.i18n_loader')
-                ->replaceArgument(1, $mergedConfig['i18n']['locales'])
-                ->replaceArgument(2, $mergedConfig['i18n']['default_locale']);
+        $container->findDefinition('ruwork_routing.i18n_loader')
+            ->replaceArgument(1, $mergedConfig['i18n']['locales'])
+            ->replaceArgument(2, $mergedConfig['i18n']['default_locale']);
 
-            $container->findDefinition('ruwork_routing.template_loader')
-                ->replaceArgument(2, $mergedConfig['i18n']['locales']);
-
-            $container->setAlias('router', 'ruwork_routing.i18n_router');
-        } else {
-            $container->removeDefinition('ruwork_routing.i18n_router');
-            $container->removeDefinition('ruwork_routing.i18n_loader');
-        }
+        $container->findDefinition('ruwork_routing.template_loader')
+            ->replaceArgument(2, $mergedConfig['i18n']['locales']);
     }
 }

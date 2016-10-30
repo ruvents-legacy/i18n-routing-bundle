@@ -5,6 +5,8 @@ services:
     calls:
       - [setRequestStack, ["@request_stack"]]
 
+  router: "@ruwork_routing.i18n_router"
+
   ruwork_routing.i18n_loader:
     class: Ruwork\RoutingBundle\Routing\I18nLoader
     arguments:
