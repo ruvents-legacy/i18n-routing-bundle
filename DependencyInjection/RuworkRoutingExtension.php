@@ -2,6 +2,7 @@
 
 namespace Ruwork\RoutingBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
@@ -21,14 +22,20 @@ class RuworkRoutingExtension extends ConfigurableExtension
 
         $loader->load('services.yml');
 
+        $i18n = $mergedConfig['i18n'];
+
+        if (!in_array($i18n['default_locale'], $i18n['locales'], true)) {
+            throw new InvalidConfigurationException('The path "ruwork_routing.i18n.locales" must contain "ruwork_routing.i18n.default_locale" value.');
+        }
+
         $container->findDefinition('ruwork_routing.i18n_router')
-            ->addMethodCall('setDefaultLocale', [$mergedConfig['i18n']['default_locale']]);
+            ->addMethodCall('setDefaultLocale', [$i18n['default_locale']]);
 
         $container->findDefinition('ruwork_routing.i18n_loader')
-            ->replaceArgument(1, $mergedConfig['i18n']['locales'])
-            ->replaceArgument(2, $mergedConfig['i18n']['default_locale']);
+            ->replaceArgument(1, $i18n['locales'])
+            ->replaceArgument(2, $i18n['default_locale']);
 
         $container->findDefinition('ruwork_routing.template_loader')
-            ->replaceArgument(2, $mergedConfig['i18n']['locales']);
+            ->replaceArgument(2, $i18n['locales']);
     }
 }

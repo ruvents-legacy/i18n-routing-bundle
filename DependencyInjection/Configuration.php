@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->arrayNode('locales')
                                 ->isRequired()
+                                ->requiresAtLeastOneElement()
                                 ->prototype('scalar')->cannotBeEmpty()->end()
                             ->end()
                             ->scalarNode('default_locale')->isRequired()->end()
