@@ -32,7 +32,7 @@ class I18nTemplateReference
      */
     public static function __set_state(array $data)
     {
-        return new self($data['template'], $data['locales']);
+        return new static($data['template'], $data['locales']);
     }
 
     /**
