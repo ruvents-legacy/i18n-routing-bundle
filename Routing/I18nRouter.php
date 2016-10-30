@@ -81,7 +81,7 @@ class I18nRouter extends Router
      */
     private function beforeGenerate(Route $route = null, array &$parameters)
     {
-        if ($route === null || ($route->hasOption('i18n') && $route->getOption('i18n') === false)) {
+        if ($route === null || $route->getOption('i18n') === false) {
             return;
         }
 
@@ -106,7 +106,7 @@ class I18nRouter extends Router
      */
     private function afterMatch(array &$parameters, Route $route = null)
     {
-        if (!isset($parameters['_locale']) || $route->hasOption('i18n') && $route->getOption('i18n') === false) {
+        if (!isset($parameters['_locale']) || $route->getOption('i18n') === false) {
             return;
         }
 

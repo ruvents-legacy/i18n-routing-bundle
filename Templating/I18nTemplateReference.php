@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 class I18nTemplateReference
 {
     /**
-     * @var ExportableTemplateReference
+     * @var TemplateExportableReference
      */
     private $template;
 
@@ -17,10 +17,10 @@ class I18nTemplateReference
     private $locales;
 
     /**
-     * @param ExportableTemplateReference $template
+     * @param TemplateExportableReference $template
      * @param array                       $locales
      */
-    public function __construct(ExportableTemplateReference $template, array $locales = [])
+    public function __construct(TemplateExportableReference $template, array $locales = [])
     {
         $this->template = $template;
         $this->locales = $locales;
@@ -65,7 +65,7 @@ class I18nTemplateReference
 
     /**
      * @param Request $request
-     * @return ExportableTemplateReference
+     * @return TemplateExportableReference
      */
     public function resolveLocale(Request $request)
     {
