@@ -10,7 +10,7 @@ class TemplateExportableReference extends BaseTemplateReference
      * @param array $data
      * @return TemplateExportableReference
      */
-    public function __set_state(array $data)
+    public static function __set_state(array $data)
     {
         $template = new static();
 
