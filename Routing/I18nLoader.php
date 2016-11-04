@@ -2,12 +2,17 @@
 
 namespace Ruwork\RoutingBundle\Routing;
 
-use Ruwork\RoutingBundle\Config\Loader\DecoratingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\RouteCollection;
 
-class I18nLoader extends DecoratingLoader
+class I18nLoader implements LoaderInterface
 {
+    /**
+     * @var LoaderInterface
+     */
+    private $loader;
+
     /**
      * @var string[]
      */
@@ -25,7 +30,7 @@ class I18nLoader extends DecoratingLoader
      */
     public function __construct(LoaderInterface $loader, array $locales = [], $defaultLocale)
     {
-        parent::__construct($loader);
+        $this->loader = $loader;
         $this->locales = $locales;
         $this->defaultLocale = $defaultLocale;
     }
@@ -36,7 +41,7 @@ class I18nLoader extends DecoratingLoader
     public function load($resource, $type = null)
     {
         /** @var RouteCollection $routes */
-        $routes = $this->getDecoratedLoader()->load($resource, $type);
+        $routes = $this->loader->load($resource, $type);
 
         foreach ($routes as $name => $route) {
             if ($route->getOption('i18n') === false) {
@@ -54,5 +59,29 @@ class I18nLoader extends DecoratingLoader
         }
 
         return $routes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
+    {
+        return $this->loader->supports($resource, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResolver()
+    {
+        return $this->loader->getResolver();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setResolver(LoaderResolverInterface $resolver)
+    {
+        return $this->loader->setResolver($resolver);
     }
 }
