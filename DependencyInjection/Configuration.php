@@ -12,12 +12,11 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-
-        $treeBuilder
+        return (new TreeBuilder())
             ->root('ruwork_routing')
                 ->children()
                     ->arrayNode('i18n')
+                        ->canBeEnabled()
                         ->children()
                             ->arrayNode('locales')
                                 ->isRequired()
@@ -27,9 +26,10 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('default_locale')->isRequired()->end()
                         ->end()
                     ->end()
+                    ->arrayNode('template')
+                        ->canBeEnabled()
+                    ->end()
                 ->end()
             ->end();
-
-        return $treeBuilder;
     }
 }

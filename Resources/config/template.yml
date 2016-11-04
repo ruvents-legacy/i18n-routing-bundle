@@ -1,0 +1,8 @@
+services:
+  ruwork_routing.template_loader:
+    class: Ruwork\RoutingBundle\Routing\TemplateLoader
+    arguments:
+      - '@templating.name_parser'
+      - '@file_locator'
+    tags:
+      - { name: routing.loader }
