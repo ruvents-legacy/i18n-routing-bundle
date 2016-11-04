@@ -34,8 +34,5 @@ class RuworkRoutingExtension extends ConfigurableExtension
         $container->findDefinition('ruwork_routing.i18n_loader')
             ->replaceArgument(1, $i18n['locales'])
             ->replaceArgument(2, $i18n['default_locale']);
-
-        $container->findDefinition('ruwork_routing.template_loader')
-            ->replaceArgument(2, $i18n['locales']);
     }
 }

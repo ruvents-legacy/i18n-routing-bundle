@@ -9,15 +9,9 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Ruwork\RoutingBundle\Config\Resource\RegexFileStructureResource;
-use Ruwork\RoutingBundle\Templating\TemplateExportableReference;
-use Ruwork\RoutingBundle\Templating\I18nTemplateReference;
 
 class TemplateLoader extends Loader
 {
-    const NAME = 'ruwork_template';
-
-    const ROUTE_PARAM = 'i18nTemplate';
-
     /**
      * @var TemplateNameParser
      */
@@ -34,23 +28,13 @@ class TemplateLoader extends Loader
     private $loadedResources = [];
 
     /**
-     * @var string[]
-     */
-    private $locales;
-
-    /**
      * @param TemplateNameParser   $templateNameParser
      * @param FileLocatorInterface $fileLocator
-     * @param string[]             $locales
      */
-    public function __construct(
-        TemplateNameParser $templateNameParser,
-        FileLocatorInterface $fileLocator,
-        array $locales
-    ) {
+    public function __construct(TemplateNameParser $templateNameParser, FileLocatorInterface $fileLocator)
+    {
         $this->templateNameParser = $templateNameParser;
         $this->fileLocator = $fileLocator;
-        $this->locales = $locales;
     }
 
     /**
@@ -61,37 +45,34 @@ class TemplateLoader extends Loader
     {
         if (in_array($resource, $this->loadedResources)) {
             throw new \RuntimeException(sprintf('Resource "%s" was already loaded by the "%s" loader.',
-                $resource, self::NAME
+                $resource, get_class($this)
             ));
         }
 
         $routes = new RouteCollection();
         $baseReference = $this->templateNameParser->parse($resource);
-        $loaderResource = $this->createLoaderResource($baseReference);
+        $loaderResource = $this->createStructureResource($baseReference);
         $routes->addResource($loaderResource);
 
         foreach ($loaderResource as $fileInfo) {
-            $uri = $this->getUri($fileInfo['pathname']);
-            $name = $this->getRouteName($uri);
+            $uri = $this->getUri($fileInfo);
+            $name = $this->getRouteName($fileInfo);
 
-            if (null === $route = $routes->get($name)) {
-                $i18nTemplate = $this->createI18nTemplate(
-                    $baseReference->get('bundle'),
-                    ltrim(dirname($fileInfo['pathname']), '/'),
-                    basename($fileInfo['pathname']),
-                    $baseReference->get('format'),
-                    $baseReference->get('engine')
-                );
-
-                $routes->add($name, new Route($uri, [
-                    self::ROUTE_PARAM => $i18nTemplate,
-                ]));
-            } else {
-                /** @var I18nTemplateReference $i18nTemplate */
-                $i18nTemplate = $route->getDefault(self::ROUTE_PARAM);
+            if (null !== $routes->get($name)) {
+                continue;
             }
 
-            $i18nTemplate->addLocale(empty($fileInfo['locale']) ? '' : $fileInfo['locale']);
+            $templateReference = new TemplateReference(
+                $baseReference->get('bundle'),
+                $fileInfo['path'],
+                $fileInfo['name'],
+                $baseReference->get('format'),
+                $baseReference->get('engine')
+            );
+
+            $routes->add($name, new Route($uri, [
+                'template' => $templateReference->__toString(),
+            ]));
         }
 
         $this->loadedResources[] = $resource;
@@ -104,69 +85,49 @@ class TemplateLoader extends Loader
      */
     public function supports($resource, $type = null)
     {
-        return $type === self::NAME;
+        return $type === 'ruwork_template';
     }
 
     /**
      * @param TemplateReference $reference
      * @return RegexFileStructureResource
      */
-    protected function createLoaderResource(TemplateReference $reference)
+    protected function createStructureResource(TemplateReference $reference)
     {
         $dir = $this->fileLocator->locate(dirname($reference->getPath()));
 
         return new RegexFileStructureResource($dir, sprintf(
-            '#^%s(?<pathname>/.+?)(?:\.(?<locale>%s))?\.%s\.%s$#i',
+            '#^%s/?(?<'.'path>[\w-/]*?)/(?<'.'name>[\w-]+)\.%s\.%s$#',
             preg_quote($dir),
-            implode('|', array_map('preg_quote', $this->locales)),
             preg_quote($reference->get('format')),
             preg_quote($reference->get('engine'))
         ));
     }
 
     /**
-     * @param string|null $bundle
-     * @param string|null $controller
-     * @param string|null $name
-     * @param string|null $format
-     * @param string|null $engine
-     * @return I18nTemplateReference
-     */
-    protected function createI18nTemplate(
-        $bundle = null,
-        $controller = null,
-        $name = null,
-        $format = null,
-        $engine = null
-    ) {
-        return new I18nTemplateReference(
-            new TemplateExportableReference($bundle, $controller, $name, $format, $engine)
-        );
-    }
-
-    /**
-     * @param $string
+     * @param array $fileInfo
      * @return string
      */
-    protected function getUri($string)
+    protected function getUri(array $fileInfo)
     {
-        return ltrim(preg_replace('#/index$#i', '', $string), '/');
+        return $fileInfo['path'].($fileInfo['name'] === 'index' ? '' : '/'.$fileInfo['name']);
     }
 
     /**
-     * @param string $uri
-     * @param string $delimiter
+     * @param array  $fileInfo
+     * @param string $slashReplacement
      * @param string $rootName
      * @return string
      */
-    protected function getRouteName($uri, $delimiter = '_', $rootName = 'index')
+    protected function getRouteName(array $fileInfo, $slashReplacement = '_', $rootName = 'index')
     {
-        if ($uri === '') {
-            return $rootName;
+        $path = str_replace('/', $slashReplacement, $fileInfo['path']);
+        $name = $fileInfo['name'] === 'index' ? '' : $fileInfo['name'];
+
+        if ($path === '') {
+            return $name === '' ? $rootName : $name;
         }
 
-        $routeName = preg_replace('/[\W]+/', $delimiter, $uri);
-
-        return trim($routeName, $delimiter);
+        return $path.($name === '' ? '' : $slashReplacement).$name;
     }
 }

@@ -20,6 +20,5 @@ services:
     arguments:
       - '@templating.name_parser'
       - '@file_locator'
-      - []
     tags:
       - { name: routing.loader }
