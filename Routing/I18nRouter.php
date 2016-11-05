@@ -5,7 +5,6 @@ namespace Ruwork\RoutingBundle\Routing;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Route;
 
 class I18nRouter extends Router
 {
@@ -46,7 +45,7 @@ class I18nRouter extends Router
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        $this->beforeGenerate($this->getRouteCollection()->get($name), $parameters);
+        $this->beforeGenerate($name, $parameters);
 
         return parent::generate($name, $parameters, $referenceType);
     }
@@ -58,7 +57,7 @@ class I18nRouter extends Router
     {
         $parameters = parent::match($pathinfo);
 
-        $this->afterMatch($parameters, $this->getRouteCollection()->get($parameters['_route']));
+        $this->afterMatch($parameters);
 
         return $parameters;
     }
@@ -70,18 +69,22 @@ class I18nRouter extends Router
     {
         $parameters = parent::matchRequest($request);
 
-        $this->afterMatch($parameters, $this->getRouteCollection()->get($parameters['_route']));
+        $this->afterMatch($parameters);
 
         return $parameters;
     }
 
     /**
-     * @param Route|null $route
-     * @param array      $parameters
+     * @param string $name
+     * @param array  $parameters
      */
-    private function beforeGenerate(Route $route = null, array &$parameters)
+    private function beforeGenerate($name, array &$parameters = [])
     {
-        if ($route === null || $route->getOption('i18n') === false) {
+        if (null === $route = $this->getRouteCollection()->get($name)) {
+            return;
+        }
+
+        if ($route->getOption('i18n') === false) {
             return;
         }
 
@@ -101,12 +104,19 @@ class I18nRouter extends Router
     }
 
     /**
-     * @param array      $parameters
-     * @param Route|null $route
+     * @param array $parameters
      */
-    private function afterMatch(array &$parameters, Route $route = null)
+    private function afterMatch(array &$parameters = [])
     {
-        if (!isset($parameters['_locale']) || $route->getOption('i18n') === false) {
+        if (!isset($parameters['_route']) || !isset($parameters['_locale'])) {
+            return;
+        }
+
+        if (null === $route = $this->getRouteCollection()->get($parameters['_route'])) {
+            return;
+        }
+
+        if ($route->getOption('i18n') === false) {
             return;
         }
 
