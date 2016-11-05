@@ -39,6 +39,7 @@ class TemplateLoader extends Loader
 
     /**
      * {@inheritdoc}
+     *
      * @throws \RuntimeException
      */
     public function load($resource, $type = null)
@@ -54,9 +55,9 @@ class TemplateLoader extends Loader
         $loaderResource = $this->createStructureResource($baseReference);
         $routes->addResource($loaderResource);
 
-        foreach ($loaderResource as $fileInfo) {
-            $uri = $this->getUri($fileInfo);
-            $name = $this->getRouteName($fileInfo);
+        foreach ($loaderResource as $matches) {
+            $uri = $this->getUri($matches);
+            $name = $this->getRouteName($matches);
 
             if (null !== $routes->get($name)) {
                 continue;
@@ -64,8 +65,8 @@ class TemplateLoader extends Loader
 
             $templateReference = new TemplateReference(
                 $baseReference->get('bundle'),
-                $fileInfo['path'],
-                $fileInfo['name'],
+                $matches['path'],
+                $matches['name'],
                 $baseReference->get('format'),
                 $baseReference->get('engine')
             );
@@ -90,6 +91,7 @@ class TemplateLoader extends Loader
 
     /**
      * @param TemplateReference $reference
+     *
      * @return RegexFileStructureResource
      */
     protected function createStructureResource(TemplateReference $reference)
@@ -105,24 +107,26 @@ class TemplateLoader extends Loader
     }
 
     /**
-     * @param array $fileInfo
+     * @param array $matches
+     *
      * @return string
      */
-    protected function getUri(array $fileInfo)
+    protected function getUri(array $matches)
     {
-        return $fileInfo['path'].($fileInfo['name'] === 'index' ? '' : '/'.$fileInfo['name']);
+        return $matches['path'].($matches['name'] === 'index' ? '' : '/'.$matches['name']);
     }
 
     /**
-     * @param array  $fileInfo
+     * @param array  $matches
      * @param string $slashReplacement
      * @param string $rootName
+     *
      * @return string
      */
-    protected function getRouteName(array $fileInfo, $slashReplacement = '_', $rootName = 'index')
+    protected function getRouteName(array $matches, $slashReplacement = '_', $rootName = 'index')
     {
-        $path = str_replace('/', $slashReplacement, $fileInfo['path']);
-        $name = $fileInfo['name'] === 'index' ? '' : $fileInfo['name'];
+        $path = str_replace('/', $slashReplacement, $matches['path']);
+        $name = $matches['name'] === 'index' ? '' : $matches['name'];
 
         if ($path === '') {
             return $name === '' ? $rootName : $name;

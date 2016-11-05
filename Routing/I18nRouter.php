@@ -20,6 +20,7 @@ class I18nRouter extends Router
 
     /**
      * @param string $defaultLocale
+     *
      * @return $this
      */
     public function setDefaultLocale($defaultLocale)
@@ -31,6 +32,7 @@ class I18nRouter extends Router
 
     /**
      * @param RequestStack $requestStack
+     *
      * @return $this
      */
     public function setRequestStack(RequestStack $requestStack)
