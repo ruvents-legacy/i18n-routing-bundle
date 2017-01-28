@@ -1,6 +1,6 @@
 <?php
 
-namespace Ruwork\RoutingBundle\DependencyInjection;
+namespace Ruvents\I18nRoutingBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -13,21 +13,15 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         return (new TreeBuilder())
-            ->root('ruwork_routing')
+            ->root('ruwork_i18n_routing')
                 ->children()
-                    ->arrayNode('i18n')
-                        ->canBeEnabled()
-                        ->children()
-                            ->arrayNode('locales')
-                                ->isRequired()
-                                ->requiresAtLeastOneElement()
-                                ->prototype('scalar')->cannotBeEmpty()->end()
-                            ->end()
-                            ->scalarNode('default_locale')->isRequired()->end()
-                        ->end()
+                    ->arrayNode('locales')
+                        ->isRequired()
+                        ->requiresAtLeastOneElement()
+                        ->prototype('scalar')->cannotBeEmpty()->end()
                     ->end()
-                    ->arrayNode('template')
-                        ->canBeEnabled()
+                    ->scalarNode('default_locale')
+                        ->isRequired()
                     ->end()
                 ->end()
             ->end();

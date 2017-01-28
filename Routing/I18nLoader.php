@@ -1,6 +1,6 @@
 <?php
 
-namespace Ruwork\RoutingBundle\Routing;
+namespace Ruvents\I18nRoutingBundle\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;

@@ -1,6 +1,6 @@
 {
-    "name": "ruwork/routing-bundle",
-    "description": "RUWORK Routing Bundle",
+    "name": "ruvents/i18n-routing-bundle",
+    "description": "RUVENTS I18n Routing Bundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -10,12 +10,29 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9"
+        "php": ">=5.5.9",
+        "symfony/routing": "^3.0",
+        "symfony/http-foundation": "^3.0",
+        "symfony/http-kernel": "^3.0",
+        "symfony/config": "^3.0",
+        "symfony/dependency-injection": "^3.0",
+        "symfony/yaml": "^3.0",
+        "symfony/framework-bundle": "^3.2"
+    },
+    "require-dev": {
+        "matthiasnoback/symfony-config-test": "^2.1"
     },
     "autoload": {
         "psr-4": {
-            "Ruwork\\RoutingBundle\\": ""
-        }
+            "Ruvents\\I18nRoutingBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "minimum-stability": "dev"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
 }

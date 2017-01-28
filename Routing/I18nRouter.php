@@ -1,6 +1,6 @@
 <?php
 
-namespace Ruwork\RoutingBundle\Routing;
+namespace Ruvents\I18nRoutingBundle\Routing;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
