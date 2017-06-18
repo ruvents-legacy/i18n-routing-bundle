@@ -1,16 +1,14 @@
 services:
-  ruwork_i18n_routing.router:
-    class: Ruvents\I18nRoutingBundle\Routing\I18nRouter
-    parent: router.default
-    calls:
-      - [setRequestStack, ['@request_stack']]
-
   ruwork_i18n_routing.loader:
     class: Ruvents\I18nRoutingBundle\Routing\I18nLoader
     arguments:
-      - '@ruwork_i18n_routing.loader.inner'
+      - "@ruwork_i18n_routing.loader.inner"
       - []
       - ~
     decorates: routing.loader
 
-  router: '@ruwork_i18n_routing.router'
+  ruwork_i18n_routing.router:
+    class: Ruvents\I18nRoutingBundle\Routing\I18nRouter
+    parent: router.default
+    calls:
+      - [setRequestStack, ["@request_stack"]]

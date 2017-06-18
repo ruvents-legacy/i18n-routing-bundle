@@ -18,28 +18,14 @@ class I18nRouter extends Router
      */
     private $requestStack;
 
-    /**
-     * @param string $defaultLocale
-     *
-     * @return $this
-     */
     public function setDefaultLocale($defaultLocale)
     {
         $this->defaultLocale = $defaultLocale;
-
-        return $this;
     }
 
-    /**
-     * @param RequestStack $requestStack
-     *
-     * @return $this
-     */
     public function setRequestStack(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-
-        return $this;
     }
 
     /**
@@ -86,23 +72,18 @@ class I18nRouter extends Router
             return;
         }
 
-        if ($route->getOption('i18n') === false) {
+        if (false === $route->getOption('i18n')) {
             return;
         }
 
-        if (!isset($parameters['_locale'])) {
-            $masterRequest = $this->requestStack->getMasterRequest();
-
-            $locale = $masterRequest === null
-                ? $this->defaultLocale
-                : $masterRequest->getLocale();
-        } else {
+        if (isset($parameters['_locale'])) {
             $locale = $parameters['_locale'];
+        } else {
+            $request = $this->requestStack->getCurrentRequest();
+            $locale = $request === null ? $this->defaultLocale : $request->getLocale();
         }
 
-        $parameters['_locale'] = $locale === $this->defaultLocale
-            ? ''
-            : $locale.'/';
+        $parameters['_locale'] = $this->defaultLocale === $locale ? '' : $locale.'/';
     }
 
     /**
@@ -118,12 +99,12 @@ class I18nRouter extends Router
             return;
         }
 
-        if ($route->getOption('i18n') === false) {
+        if (false === $route->getOption('i18n')) {
             return;
         }
 
-        $parameters['_locale'] = empty($parameters['_locale'])
-            ? $this->defaultLocale
-            : rtrim($parameters['_locale'], '/');
+        $parameters['_locale'] = isset($parameters['_locale']) && '' !== $parameters['_locale']
+            ? rtrim($parameters['_locale'], '/')
+            : $this->defaultLocale;
     }
 }

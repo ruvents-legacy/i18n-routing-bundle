@@ -23,11 +23,6 @@ class I18nLoader implements LoaderInterface
      */
     private $defaultLocale;
 
-    /**
-     * @param LoaderInterface $loader
-     * @param array           $locales
-     * @param string          $defaultLocale
-     */
     public function __construct(LoaderInterface $loader, array $locales = [], $defaultLocale)
     {
         $this->loader = $loader;
@@ -40,8 +35,11 @@ class I18nLoader implements LoaderInterface
      */
     public function load($resource, $type = null)
     {
-        /** @var RouteCollection $routes */
         $routes = $this->loader->load($resource, $type);
+
+        if (!$routes instanceof RouteCollection) {
+            return $routes;
+        }
 
         foreach ($routes as $name => $route) {
             if ($route->getOption('i18n') === false) {
