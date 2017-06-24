@@ -12,6 +12,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         return (new TreeBuilder())
             ->root('ruwork_i18n_routing')
                 ->children()
@@ -20,9 +21,7 @@ class Configuration implements ConfigurationInterface
                         ->requiresAtLeastOneElement()
                         ->prototype('scalar')->cannotBeEmpty()->end()
                     ->end()
-                    ->scalarNode('default_locale')
-                        ->isRequired()
-                    ->end()
+                    ->scalarNode('default_locale')->isRequired()->cannotBeEmpty()->end()
                 ->end()
             ->end();
     }
