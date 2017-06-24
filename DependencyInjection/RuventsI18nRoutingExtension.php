@@ -12,16 +12,16 @@ class RuventsI18nRoutingExtension extends ConfigurableExtension
     /**
      * {@inheritdoc}
      */
-    public function loadInternal(array $mergedConfig, ContainerBuilder $container)
+    public function loadInternal(array $config, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config'));
         $loader->load('services.yml');
 
         $container->getDefinition('ruwork_i18n_routing.loader')
-            ->replaceArgument(1, $mergedConfig['locales'])
-            ->replaceArgument(2, $mergedConfig['default_locale']);
+            ->replaceArgument(1, $config['locales'])
+            ->replaceArgument(2, $config['default_locale']);
 
         $container->getDefinition('ruwork_i18n_routing.router')
-            ->addMethodCall('setDefaultLocale', [$mergedConfig['default_locale']]);
+            ->addMethodCall('setDefaultLocale', [$config['default_locale']]);
     }
 }

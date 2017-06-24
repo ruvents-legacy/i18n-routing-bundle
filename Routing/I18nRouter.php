@@ -18,6 +18,9 @@ class I18nRouter extends Router
      */
     private $requestStack;
 
+    /**
+     * @param $defaultLocale string
+     */
     public function setDefaultLocale($defaultLocale)
     {
         $this->defaultLocale = $defaultLocale;
@@ -33,7 +36,7 @@ class I18nRouter extends Router
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        $this->beforeGenerate($name, $parameters);
+        $this->preGenerate($name, $parameters);
 
         return parent::generate($name, $parameters, $referenceType);
     }
@@ -45,7 +48,7 @@ class I18nRouter extends Router
     {
         $parameters = parent::match($pathinfo);
 
-        $this->afterMatch($parameters);
+        $this->postMatch($parameters);
 
         return $parameters;
     }
@@ -57,16 +60,12 @@ class I18nRouter extends Router
     {
         $parameters = parent::matchRequest($request);
 
-        $this->afterMatch($parameters);
+        $this->postMatch($parameters);
 
         return $parameters;
     }
 
-    /**
-     * @param string $name
-     * @param array  $parameters
-     */
-    private function beforeGenerate($name, array &$parameters = [])
+    private function preGenerate($name, array &$parameters = [])
     {
         if (null === $route = $this->getRouteCollection()->get($name)) {
             return;
@@ -86,10 +85,7 @@ class I18nRouter extends Router
         $parameters['_locale'] = $this->defaultLocale === $locale ? '' : $locale.'/';
     }
 
-    /**
-     * @param array $parameters
-     */
-    private function afterMatch(array &$parameters = [])
+    private function postMatch(array &$parameters = [])
     {
         if (!isset($parameters['_route']) || !isset($parameters['_locale'])) {
             return;
