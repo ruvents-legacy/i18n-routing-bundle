@@ -12,7 +12,7 @@ ruvents_i18n_routing:
     default_locale: ru
 ```
 
-## Disabling prefixing
+## Disable prefixing
 
 To prevent routes from being prefixed, set `i18n` option to false. For example:
 
