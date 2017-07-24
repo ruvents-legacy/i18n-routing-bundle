@@ -1,6 +1,7 @@
 services:
   ruvents_i18n_routing.loader:
     class: Ruvents\I18nRoutingBundle\Routing\I18nLoader
+    public: false
     arguments:
       - "@ruvents_i18n_routing.loader.inner"
       - []
@@ -9,6 +10,7 @@ services:
 
   ruvents_i18n_routing.router:
     class: Ruvents\I18nRoutingBundle\Routing\I18nRouter
+    public: false
     parent: router.default
     calls:
       - [setRequestStack, ["@request_stack"]]
