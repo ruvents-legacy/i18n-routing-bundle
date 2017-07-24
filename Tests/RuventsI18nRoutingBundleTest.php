@@ -11,7 +11,7 @@ class RuventsI18nRoutingBundleTest extends TestCase
     public function testBuild()
     {
         $container = new ContainerBuilder();
-        $container->register('ruwork_i18n_routing.router', RuventsI18nRoutingBundle::class);
+        $container->register('ruvents_i18n_routing.router', RuventsI18nRoutingBundle::class);
         (new RuventsI18nRoutingBundle())->build($container);
         $container->compile();
         $this->assertTrue($container->hasAlias('router'));

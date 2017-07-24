@@ -17,11 +17,11 @@ class RuventsI18nRoutingExtension extends ConfigurableExtension
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config'));
         $loader->load('services.yml');
 
-        $container->getDefinition('ruwork_i18n_routing.loader')
+        $container->getDefinition('ruvents_i18n_routing.loader')
             ->replaceArgument(1, $config['locales'])
             ->replaceArgument(2, $config['default_locale']);
 
-        $container->getDefinition('ruwork_i18n_routing.router')
+        $container->getDefinition('ruvents_i18n_routing.router')
             ->addMethodCall('setDefaultLocale', [$config['default_locale']]);
     }
 }

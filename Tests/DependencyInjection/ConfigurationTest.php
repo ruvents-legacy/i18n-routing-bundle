@@ -13,7 +13,7 @@ class ConfigurationTest extends TestCase
     public function testLocalesRequired()
     {
         $this->assertConfigurationIsInvalid([
-            'ruwork_i18n_routing' => [
+            'ruvents_i18n_routing' => [
                 'default_locale' => 'ru',
             ],
         ], 'must be configured');
@@ -22,7 +22,7 @@ class ConfigurationTest extends TestCase
     public function testLocalesNotEmpty()
     {
         $this->assertConfigurationIsInvalid([
-            'ruwork_i18n_routing' => [
+            'ruvents_i18n_routing' => [
                 'locales' => [],
                 'default_locale' => 'ru',
             ],
@@ -32,7 +32,7 @@ class ConfigurationTest extends TestCase
     public function testLocaleNotEmpty()
     {
         $this->assertConfigurationIsInvalid([
-            'ruwork_i18n_routing' => [
+            'ruvents_i18n_routing' => [
                 'locales' => [''],
                 'default_locale' => 'ru',
             ],
@@ -42,7 +42,7 @@ class ConfigurationTest extends TestCase
     public function testDefaultLocaleRequired()
     {
         $this->assertConfigurationIsInvalid([
-            'ruwork_i18n_routing' => [
+            'ruvents_i18n_routing' => [
                 'locales' => ['ru'],
             ],
         ], 'must be configured');
@@ -51,7 +51,7 @@ class ConfigurationTest extends TestCase
     public function testDefaultLocaleNotEmpty()
     {
         $this->assertConfigurationIsInvalid([
-            'ruwork_i18n_routing' => [
+            'ruvents_i18n_routing' => [
                 'locales' => ['ru'],
                 'default_locale' => '',
             ],

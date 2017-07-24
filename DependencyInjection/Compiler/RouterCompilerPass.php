@@ -12,6 +12,6 @@ class RouterCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->setAlias('router', 'ruwork_i18n_routing.router');
+        $container->setAlias('router', 'ruvents_i18n_routing.router');
     }
 }

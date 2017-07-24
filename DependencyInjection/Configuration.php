@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return (new TreeBuilder())
-            ->root('ruwork_i18n_routing')
+            ->root('ruvents_i18n_routing')
                 ->children()
                     ->arrayNode('locales')
                         ->isRequired()

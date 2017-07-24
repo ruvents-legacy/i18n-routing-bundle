@@ -15,18 +15,18 @@ class RuventsI18nRoutingExtensionTest extends AbstractExtensionTestCase
             'default_locale' => $defaultLocale = 'ru',
         ]);
 
-        $this->assertContainerBuilderHasService('ruwork_i18n_routing.loader');
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruwork_i18n_routing.loader',
-            0, new Reference('ruwork_i18n_routing.loader.inner'));
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruwork_i18n_routing.loader',
+        $this->assertContainerBuilderHasService('ruvents_i18n_routing.loader');
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruvents_i18n_routing.loader',
+            0, new Reference('ruvents_i18n_routing.loader.inner'));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruvents_i18n_routing.loader',
             1, $locales);
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruwork_i18n_routing.loader',
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('ruvents_i18n_routing.loader',
             2, $defaultLocale);
 
-        $this->assertContainerBuilderHasService('ruwork_i18n_routing.router');
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('ruwork_i18n_routing.router',
+        $this->assertContainerBuilderHasService('ruvents_i18n_routing.router');
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('ruvents_i18n_routing.router',
             'setRequestStack', [new Reference('request_stack')]);
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('ruwork_i18n_routing.router',
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('ruvents_i18n_routing.router',
             'setDefaultLocale', [$defaultLocale]);
     }
 
