@@ -8,7 +8,9 @@ env:
     - SYMFONY_VERSION=~3.4.0
     - SYMFONY_VERSION=~4.0.0
 
-install:
+before_install:
     - >
         sed -i.bac 's#"\(symfony/[[:alnum:]-]*\)": "[^"]*"#"\1": "'"${SYMFONY_VERSION}"'"#g' composer.json
+
+install:
     - composer install
