@@ -10,5 +10,5 @@ env:
 
 install:
     - >
-        sed -i.bac 's#"\(symfony/[[:alnum:]-]*\)": "[^"]*"#"\1": "${SYMFONY_VERSION}"#g' composer.json
+        sed -i.bac 's#"\(symfony/[[:alnum:]-]*\)": "[^"]*"#"\1": "'"${SYMFONY_VERSION}"'"#g' composer.json
     - composer install
