@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ruvents/i18n-routing-bundle.svg?branch=master)](https://travis-ci.org/ruvents/i18n-routing-bundle)
+
 # RUVENTS I18n Routing Bundle
 
 ## Description
