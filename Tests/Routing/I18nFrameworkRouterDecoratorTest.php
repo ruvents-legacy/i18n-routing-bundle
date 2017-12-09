@@ -3,8 +3,8 @@
 namespace Ruvents\I18nRoutingBundle\Tests\Routing;
 
 use PHPUnit\Framework\TestCase;
-use Ruvents\I18nRoutingBundle\Routing\I18nLoader;
-use Ruvents\I18nRoutingBundle\Routing\I18nRouter;
+use Ruvents\I18nRoutingBundle\Routing\I18nLoaderDecorator;
+use Ruvents\I18nRoutingBundle\Routing\I18nFrameworkRouterDecorator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class I18nRouterTest extends TestCase
+class I18nFrameworkRouterDecoratorTest extends TestCase
 {
     /**
      * @dataProvider data
@@ -64,7 +64,7 @@ class I18nRouterTest extends TestCase
 
     private function createRouter(RouteCollection $collection, array $locales, $defaultLocale, $currentLocale)
     {
-        $i18nRouter = new I18nRouter($this->createContainer($collection, $locales, $defaultLocale), 'res');
+        $i18nRouter = new I18nFrameworkRouterDecorator($this->createContainer($collection, $locales, $defaultLocale), 'res');
         $i18nRouter->setRequestStack($this->createRequestStack($currentLocale));
         $i18nRouter->setDefaultLocale($defaultLocale);
 
@@ -77,7 +77,7 @@ class I18nRouterTest extends TestCase
             ->setMethods(['get'])
             ->getMock();
 
-        $i18nLoader = new I18nLoader($this->createRouteCollectionLoader($collection), $locales, $defaultLocale);
+        $i18nLoader = new I18nLoaderDecorator($this->createRouteCollectionLoader($collection), $locales, $defaultLocale);
 
         $container->expects($this->any())
             ->method('get')

@@ -7,6 +7,9 @@ This bundle hacks Symfony Framework Bundle's router and prefixes all routes with
 ## Configuration
 
 ```yaml
+services:
+    router: "@ruvents_i18n_routing.framework_router_decorator"
+
 ruvents_i18n_routing:
     locales: [ru, en]
     default_locale: ru

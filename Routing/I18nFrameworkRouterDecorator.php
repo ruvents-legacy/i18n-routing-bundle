@@ -6,27 +6,24 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class I18nRouter extends Router
+class I18nFrameworkRouterDecorator extends Router
 {
     /**
      * @var string
      */
-    private $defaultLocale;
+    private $defaultLocale = 'en';
 
     /**
-     * @var RequestStack
+     * @var null|RequestStack
      */
     private $requestStack;
 
-    /**
-     * @param $defaultLocale string
-     */
-    public function setDefaultLocale($defaultLocale)
+    public function setDefaultLocale(string $defaultLocale): void
     {
         $this->defaultLocale = $defaultLocale;
     }
 
-    public function setRequestStack(RequestStack $requestStack)
+    public function setRequestStack(RequestStack $requestStack): void
     {
         $this->requestStack = $requestStack;
     }
@@ -47,7 +44,6 @@ class I18nRouter extends Router
     public function match($pathinfo)
     {
         $parameters = parent::match($pathinfo);
-
         $this->postMatch($parameters);
 
         return $parameters;
@@ -59,13 +55,12 @@ class I18nRouter extends Router
     public function matchRequest(Request $request)
     {
         $parameters = parent::matchRequest($request);
-
         $this->postMatch($parameters);
 
         return $parameters;
     }
 
-    private function preGenerate($name, array &$parameters = [])
+    private function preGenerate(string $name, array &$parameters): void
     {
         if (null === $route = $this->getRouteCollection()->get($name)) {
             return;
@@ -75,17 +70,28 @@ class I18nRouter extends Router
             return;
         }
 
-        if (isset($parameters['_locale'])) {
-            $locale = $parameters['_locale'];
-        } else {
-            $request = $this->requestStack->getCurrentRequest();
-            $locale = $request === null ? $this->defaultLocale : $request->getLocale();
-        }
-
+        $locale = $this->getLocale($parameters);
         $parameters['_locale'] = $this->defaultLocale === $locale ? '' : $locale.'/';
     }
 
-    private function postMatch(array &$parameters = [])
+    private function getLocale(array $parameters): string
+    {
+        if (isset($parameters['_locale'])) {
+            return $parameters['_locale'];
+        }
+
+        if (null === $this->requestStack) {
+            return $this->defaultLocale;
+        }
+
+        if (null === $request = $this->requestStack->getCurrentRequest()) {
+            return $this->defaultLocale;
+        }
+
+        return $request->getLocale();
+    }
+
+    private function postMatch(array &$parameters): void
     {
         if (!isset($parameters['_route']) || !isset($parameters['_locale'])) {
             return;

@@ -6,24 +6,13 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\RouteCollection;
 
-class I18nLoader implements LoaderInterface
+class I18nLoaderDecorator implements LoaderInterface
 {
-    /**
-     * @var LoaderInterface
-     */
     private $loader;
-
-    /**
-     * @var string[]
-     */
     private $locales;
-
-    /**
-     * @var string
-     */
     private $defaultLocale;
 
-    public function __construct(LoaderInterface $loader, array $locales = [], $defaultLocale)
+    public function __construct(LoaderInterface $loader, array $locales = [], string $defaultLocale)
     {
         $this->loader = $loader;
         $this->locales = $locales;
@@ -41,19 +30,17 @@ class I18nLoader implements LoaderInterface
             return $routes;
         }
 
-        foreach ($routes as $name => $route) {
-            if ($route->getOption('i18n') === false) {
-                continue;
+        foreach ($routes->all() as $route) {
+            if (false !== $route->getOption('i18n')) {
+                $route
+                    ->setPath('/{_locale}'.ltrim($route->getPath(), '/'))
+                    ->addDefaults(['_locale' => ''])
+                    ->addRequirements([
+                        '_locale' => implode('|', array_map(function ($locale) {
+                            return $locale === $this->defaultLocale ? '' : $locale.'/';
+                        }, $this->locales)),
+                    ]);
             }
-
-            $route
-                ->setPath('/{_locale}'.ltrim($route->getPath(), '/'))
-                ->addDefaults(['_locale' => ''])
-                ->addRequirements([
-                    '_locale' => implode('|', array_map(function ($locale) {
-                        return $locale === $this->defaultLocale ? '' : $locale.'/';
-                    }, $this->locales)),
-                ]);
         }
 
         return $routes;
@@ -80,6 +67,6 @@ class I18nLoader implements LoaderInterface
      */
     public function setResolver(LoaderResolverInterface $resolver)
     {
-        return $this->loader->setResolver($resolver);
+        $this->loader->setResolver($resolver);
     }
 }

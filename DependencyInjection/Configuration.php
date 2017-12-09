@@ -12,16 +12,20 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        /** @noinspection PhpUndefinedMethodInspection */
         return (new TreeBuilder())
             ->root('ruvents_i18n_routing')
                 ->children()
                     ->arrayNode('locales')
                         ->isRequired()
                         ->requiresAtLeastOneElement()
-                        ->prototype('scalar')->cannotBeEmpty()->end()
+                        ->scalarPrototype()
+                            ->cannotBeEmpty()
+                        ->end()
                     ->end()
-                    ->scalarNode('default_locale')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('default_locale')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
                 ->end()
             ->end();
     }

@@ -3,11 +3,11 @@
 namespace Ruvents\I18nRoutingBundle\Tests\Routing;
 
 use PHPUnit\Framework\TestCase;
-use Ruvents\I18nRoutingBundle\Routing\I18nLoader;
+use Ruvents\I18nRoutingBundle\Routing\I18nLoaderDecorator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 
-class I18nLoaderTest extends TestCase
+class I18nLoaderDecoratorTest extends TestCase
 {
     public function testDecorated()
     {
@@ -29,17 +29,16 @@ class I18nLoaderTest extends TestCase
 
         $mockLoader->expects($this->once())
             ->method('setResolver')
-            ->with($this->equalTo($resolver))
-            ->willReturnSelf();
+            ->with($this->equalTo($resolver));
 
         /** @var LoaderInterface $mockLoader */
 
-        $loader = new I18nLoader($mockLoader, $ls = ['ru', 'en'], $dl = 'ru');
+        $loader = new I18nLoaderDecorator($mockLoader, $ls = ['ru', 'en'], $dl = 'ru');
 
         // test simply decorated methods
         $this->assertEquals($loadResult, $loader->load($resource, $type));
         $this->assertTrue($loader->supports($resource, $type));
         $this->assertEquals($resolver, $loader->getResolver());
-        $this->assertEquals($mockLoader, $loader->setResolver($resolver));
+        $loader->setResolver($resolver);
     }
 }
