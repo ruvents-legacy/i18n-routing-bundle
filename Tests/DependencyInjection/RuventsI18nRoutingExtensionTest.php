@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
@@ -8,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RuventsI18nRoutingExtensionTest extends AbstractExtensionTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->load([
             'locales' => $locales = ['ru', 'en'],

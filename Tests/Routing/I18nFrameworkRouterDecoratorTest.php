@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Tests\Routing;
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +19,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
     /**
      * @dataProvider data
      */
-    public function testGenerate($path, array $parameters, $url, $currentLocale, $i18n = true)
+    public function testGenerate($path, array $parameters, $url, $currentLocale, $i18n = true): void
     {
         $locales = ['ru', 'en'];
         $defaultLocale = 'ru';
@@ -45,7 +47,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
-    public function testGenerateNonExistentRoute()
+    public function testGenerateNonExistentRoute(): void
     {
         $i18nRouter = $this->createRouter(new RouteCollection(), ['ru'], 'ru', 'ru');
         $i18nRouter->generate('a');

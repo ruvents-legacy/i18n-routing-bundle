@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Routing;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

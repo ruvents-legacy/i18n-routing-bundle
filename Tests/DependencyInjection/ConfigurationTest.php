@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
@@ -10,7 +12,7 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    public function testLocalesRequired()
+    public function testLocalesRequired(): void
     {
         $this->assertConfigurationIsInvalid([
             'ruvents_i18n_routing' => [
@@ -19,7 +21,7 @@ class ConfigurationTest extends TestCase
         ], 'must be configured');
     }
 
-    public function testLocalesNotEmpty()
+    public function testLocalesNotEmpty(): void
     {
         $this->assertConfigurationIsInvalid([
             'ruvents_i18n_routing' => [
@@ -29,7 +31,7 @@ class ConfigurationTest extends TestCase
         ], 'should have at least 1 element');
     }
 
-    public function testLocaleNotEmpty()
+    public function testLocaleNotEmpty(): void
     {
         $this->assertConfigurationIsInvalid([
             'ruvents_i18n_routing' => [
@@ -39,7 +41,7 @@ class ConfigurationTest extends TestCase
         ], 'cannot contain an empty value');
     }
 
-    public function testDefaultLocaleRequired()
+    public function testDefaultLocaleRequired(): void
     {
         $this->assertConfigurationIsInvalid([
             'ruvents_i18n_routing' => [
@@ -48,7 +50,7 @@ class ConfigurationTest extends TestCase
         ], 'must be configured');
     }
 
-    public function testDefaultLocaleNotEmpty()
+    public function testDefaultLocaleNotEmpty(): void
     {
         $this->assertConfigurationIsInvalid([
             'ruvents_i18n_routing' => [

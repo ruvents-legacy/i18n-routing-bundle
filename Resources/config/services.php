@@ -7,7 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Ruvents\I18nRoutingBundle\Routing\I18nFrameworkRouterDecorator;
 use Ruvents\I18nRoutingBundle\Routing\I18nLoaderDecorator;
 
-return function (ContainerConfigurator $container) {
+return function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('ruvents_i18n_routing.loader_decorator', I18nLoaderDecorator::class)
