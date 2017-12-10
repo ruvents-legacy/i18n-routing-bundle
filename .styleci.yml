@@ -8,7 +8,6 @@ enabled:
     - is_null
     - mb_str_functions
     - modernize_types_casting
-    - no_alias_functions
     - no_homoglyph_names
     - no_php4_constructor
     - no_unreachable_default_argument_value
