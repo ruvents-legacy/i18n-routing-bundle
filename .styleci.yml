@@ -13,7 +13,6 @@ enabled:
     - no_unreachable_default_argument_value
     - non_printable_character
     - php_unit_construct
-    - psr4
     - random_api_migration
     - simplified_null_return
     - strict_comparison
