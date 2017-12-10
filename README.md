@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ruvents/i18n-routing-bundle.svg?branch=master)](https://travis-ci.org/ruvents/i18n-routing-bundle)
+[![StyleCI](https://styleci.io/repos/80287657/shield?branch=master)](https://styleci.io/repos/80287657)
 
 # RUVENTS I18n Routing Bundle
 
