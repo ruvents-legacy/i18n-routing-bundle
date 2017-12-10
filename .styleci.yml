@@ -14,6 +14,5 @@ enabled:
     - non_printable_character
     - php_unit_construct
     - random_api_migration
-    - simplified_null_return
     - strict_comparison
     - void_return
