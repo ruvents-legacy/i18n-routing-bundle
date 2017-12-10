@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -12,7 +14,7 @@ class I18nLoaderDecorator implements LoaderInterface
     private $locales;
     private $defaultLocale;
 
-    public function __construct(LoaderInterface $loader, array $locales = [], string $defaultLocale)
+    public function __construct(LoaderInterface $loader, array $locales, string $defaultLocale)
     {
         $this->loader = $loader;
         $this->locales = $locales;
@@ -65,7 +67,7 @@ class I18nLoaderDecorator implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function setResolver(LoaderResolverInterface $resolver)
+    public function setResolver(LoaderResolverInterface $resolver): void
     {
         $this->loader->setResolver($resolver);
     }

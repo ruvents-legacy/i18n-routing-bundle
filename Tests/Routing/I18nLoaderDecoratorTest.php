@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvents\I18nRoutingBundle\Tests\Routing;
 
 use PHPUnit\Framework\TestCase;
@@ -9,7 +11,7 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 
 class I18nLoaderDecoratorTest extends TestCase
 {
-    public function testDecorated()
+    public function testDecorated(): void
     {
         $mockLoader = $this->getMockBuilder(LoaderInterface::class)->getMock();
 
