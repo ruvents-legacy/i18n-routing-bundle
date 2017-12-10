@@ -32,7 +32,6 @@ class I18nLoaderDecoratorTest extends TestCase
             ->with($this->equalTo($resolver));
 
         /** @var LoaderInterface $mockLoader */
-
         $loader = new I18nLoaderDecorator($mockLoader, $ls = ['ru', 'en'], $dl = 'ru');
 
         // test simply decorated methods

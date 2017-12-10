@@ -83,7 +83,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
             ->method('get')
             ->willReturn($i18nLoader);
 
-        /** @var Container $container */
+        /* @var Container $container */
 
         return $container;
     }
@@ -93,7 +93,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
         $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $loader->expects($this->any())->method('load')->willReturn($collection);
 
-        /** @var LoaderInterface $loader */
+        /* @var LoaderInterface $loader */
 
         return $loader;
     }
@@ -118,7 +118,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
             ->method('getCurrentRequest')
             ->willReturn($r);
 
-        /** @var RequestStack $rs */
+        /* @var RequestStack $rs */
 
         return $rs;
     }
@@ -134,7 +134,7 @@ class I18nFrameworkRouterDecoratorTest extends TestCase
             ->method('getPathInfo')
             ->willReturn($pathInfo);
 
-        /** @var Request $r */
+        /* @var Request $r */
 
         return $r;
     }
