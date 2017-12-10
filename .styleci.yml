@@ -1,1 +1,22 @@
 preset: symfony
+
+enabled:
+    - declare_strict_types
+    - dir_constant
+    - ereg_to_preg
+    - function_to_constant
+    - is_null
+    - mb_str_functions
+    - modernize_types_casting
+    - no_alias_functions
+    - no_homoglyph_names
+    - no_php4_constructor
+    - no_unreachable_default_argument_value
+    - non_printable_character
+    - php_unit_construct
+    - psr4
+    - random_api_migration
+    - silenced_deprecation_error
+    - simplified_null_return
+    - strict_comparison
+    - void_return
