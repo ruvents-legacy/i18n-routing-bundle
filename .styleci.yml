@@ -15,7 +15,6 @@ enabled:
     - php_unit_construct
     - psr4
     - random_api_migration
-    - silenced_deprecation_error
     - simplified_null_return
     - strict_comparison
     - void_return
