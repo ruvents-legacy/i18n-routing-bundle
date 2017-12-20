@@ -1,12 +1,8 @@
-[![Packagist](https://img.shields.io/packagist/l/ruvents/i18n-routing-bundle.svg)](LICENSE)
-[![PHP from Packagist](https://img.shields.io/packagist/php-v/ruvents/i18n-routing-bundle.svg)](https://packagist.org/packages/ruvents/i18n-routing-bundle)
-[![Packagist](https://img.shields.io/packagist/v/ruvents/i18n-routing-bundle.svg)](https://packagist.org/packages/ruvents/i18n-routing-bundle)
-[![Packagist](https://img.shields.io/packagist/dt/ruvents/i18n-routing-bundle.svg)](https://packagist.org/packages/ruvents/i18n-routing-bundle)
-
-[![Build Status](https://travis-ci.org/ruvents/i18n-routing-bundle.svg?branch=master)](https://travis-ci.org/ruvents/i18n-routing-bundle)
-[![StyleCI](https://styleci.io/repos/80287657/shield?branch=master)](https://styleci.io/repos/80287657)
-
 # RUVENTS I18n Routing Bundle
+
+**Attention!**
+This package is abandoned and no longer maintained.
+Consider using https://packagist.org/packages/ruwork/locale-prefix-bundle instead.
 
 ## Description
 
